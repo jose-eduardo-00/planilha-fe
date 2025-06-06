@@ -7,17 +7,14 @@
                 <i class="fa-solid fa-house fa-lg text-white"></i>
                 <router-link class="text-white text-decoration-none fs-5 ms-2" to="/home">Home</router-link>
             </li>
-            <hr class="mt-2 mb-3 ms-4" style="width: 70%; height: 2px; background-color: #fff" />
+            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff" />
+
             <li class="ms-4 d-flex align-items-center">
-                <i class="fa-solid fa-house fa-lg text-white"></i>
-                <router-link class="text-white text-decoration-none fs-5 ms-2" to="/login">Login</router-link>
+                <i class="fa-solid fa-table-list fa-lg text-white"></i>
+                <router-link class="text-white text-decoration-none fs-5 ms-2" to="/my-worksheets">Minhas
+                    Planilhas</router-link>
             </li>
-            <hr class="mt-2 mb-3 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
-            <li class="ms-4 d-flex align-items-center">
-                <i class="fa-solid fa-house fa-lg text-white"></i>
-                <router-link class="text-white text-decoration-none fs-5 ms-2" to="/registro">Registro</router-link>
-            </li>
-            <hr class="mt-2 mb-3 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
+            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
         </ul>
     </div>
 </template>

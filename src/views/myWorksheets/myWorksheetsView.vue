@@ -6,7 +6,7 @@
             <Navbar :isSidebarOpen="isSidebarOpen" @toggleSidebar="toggleSidebar" />
 
             <div class="flex-grow-1 p-4" style="padding-bottom: 60px;">
-                <h1>Bem-vindo à Home!</h1>
+                <h1>Bem-vindo as suas planilhas!</h1>
             </div>
 
             <Footer />
@@ -22,7 +22,7 @@ import Navbar from '../../components/navbar/Navbar.vue'
 import Footer from '../../components/footer/Footer.vue'
 
 export default {
-    name: 'Home',
+    name: 'MyWorksheets',
     components: { Sidebar, Navbar, Footer },
     data() {
         return {
