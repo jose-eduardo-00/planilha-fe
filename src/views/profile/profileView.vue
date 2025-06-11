@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <MainButton customClass="fw-medium" text="EDITAR" data-bs-toggle="modal"
+                                <MainButton customClass="fw-medium" text="Editar" data-bs-toggle="modal"
                                     data-bs-target="#profileModal" />
                             </div>
 
@@ -36,7 +36,7 @@
                                 <template #footer>
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary" @click="salvarPerfil">Salvar</button>
+                                    <MainButton customClass="fw-medium" text="Salvar" :onClick="handleEditProfile" />
                                 </template>
                             </EditProfileModal>
                         </div>
@@ -55,11 +55,11 @@
                                 <div>
                                     <h4>Outras Fontes</h4>
                                     <p class="border-bottom pb-2 border-black px-2">{{ formatarDinheiro(outrasFontes)
-                                        }}</p>
+                                    }}</p>
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <MainButton customClass="fw-medium" text="EDITAR" data-bs-toggle="modal"
+                                <MainButton customClass="fw-medium" text="Editar" data-bs-toggle="modal"
                                     data-bs-target="#baseDataModal" />
                             </div>
 
@@ -72,7 +72,7 @@
                                 <template #footer>
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary" @click="salvar">Salvar</button>
+                                    <MainButton customClass="fw-medium" text="Salvar" :onClick="handleEditBaseData" />
                                 </template>
                             </EditProfileModal>
 
@@ -122,6 +122,8 @@ export default {
                 currency: 'BRL'
             }).format(valor);
         },
+        handleEditProfile() { },
+        handleEditBaseData() { },
     }
 }
 </script>
