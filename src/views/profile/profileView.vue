@@ -22,7 +22,23 @@
                                     <p class="border-bottom pb-2 border-black px-2">example@gmail.com</p>
                                 </div>
                             </div>
-                            <div class="card-footer"></div>
+                            <div class="card-footer d-flex justify-content-end">
+                                <MainButton customClass="fw-medium" text="EDITAR" data-bs-toggle="modal"
+                                    data-bs-target="#profileModal" />
+                            </div>
+
+                            <EditProfileModal id="profileModal" title="Editar Perfil" customClass="">
+                                <template #default>
+                                    <MainInput v-model="nomeEdit" label="Nome" placeholder="Seu nome" />
+                                    <MainInput v-model="emailEdit" label="Email" placeholder="seu@email.com" />
+                                </template>
+
+                                <template #footer>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" @click="salvarPerfil">Salvar</button>
+                                </template>
+                            </EditProfileModal>
                         </div>
                     </div>
                     <div style="width: 40%;">
@@ -39,10 +55,27 @@
                                 <div>
                                     <h4>Outras Fontes</h4>
                                     <p class="border-bottom pb-2 border-black px-2">{{ formatarDinheiro(outrasFontes)
-                                    }}</p>
+                                        }}</p>
                                 </div>
                             </div>
-                            <div class="card-footer"></div>
+                            <div class="card-footer d-flex justify-content-end">
+                                <MainButton customClass="fw-medium" text="EDITAR" data-bs-toggle="modal"
+                                    data-bs-target="#baseDataModal" />
+                            </div>
+
+                            <EditProfileModal id="baseDataModal" title="Editar Perfil" customClass="">
+                                <template #default>
+                                    <MainInput v-model="input1" label="Salário" placeholder="R$ 1000,00" />
+                                    <MainInput v-model="input2" label="Outras Fontes" placeholder="R$ 1000,00" />
+                                </template>
+
+                                <template #footer>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" @click="salvar">Salvar</button>
+                                </template>
+                            </EditProfileModal>
+
                         </div>
                     </div>
 
@@ -60,15 +93,23 @@
 import Sidebar from '../../components/sidebar/Sidebar.vue'
 import Navbar from '../../components/navbar/Navbar.vue'
 import Footer from '../../components/footer/Footer.vue'
+import MainButton from '../../components/buttons/MainButton.vue'
+import EditProfileModal from '../../components/modals/EditProfileModal.vue'
+import MainInput from '../../components/inputs/MainInput.vue'
 
 export default {
     name: 'Profile',
-    components: { Sidebar, Navbar, Footer },
+    components: { Sidebar, Navbar, Footer, MainButton, EditProfileModal, MainInput },
     data() {
         return {
             isSidebarOpen: true,
             outrasFontes: 0,
-            salario: 0
+            salario: 0,
+
+            salarioEdit: 0,
+            outrasFontesEdit: 0,
+            nomeEdit: "",
+            emailEdit: "",
         }
     },
     methods: {
@@ -80,7 +121,7 @@ export default {
                 style: 'currency',
                 currency: 'BRL'
             }).format(valor);
-        }
+        },
     }
 }
 </script>
