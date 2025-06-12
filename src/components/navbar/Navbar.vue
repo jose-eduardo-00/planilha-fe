@@ -28,8 +28,9 @@
                         Configurações
                     </router-link>
                 </li>
-                <li class="mt-4">
-                    <button class="btn btn-dark text-white" @click="handleLogout" style="width: 90%;">Sair</button>
+                <li class="mt-4 d-flex justify-content-center">
+                    <MainButton customClass="fw-medium" :width="'90%'" :height="'40px'" text="Sair"
+                        :onClick="handleLogout" :isLoading="false" />
                 </li>
             </ul>
         </div>
@@ -38,8 +39,11 @@
 
 
 <script>
+import MainButton from '../buttons/MainButton.vue';
+
 export default {
     name: 'Navbar',
+    components: { MainButton },
     props: {
         isSidebarOpen: Boolean,
     },

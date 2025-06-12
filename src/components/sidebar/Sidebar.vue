@@ -1,5 +1,22 @@
 <template>
     <div class="sidebar" :class="{ collapsed: !isOpen }">
+        <h2 class="title text-white text-center mt-4 mb-2" :class="{ 'hide-list': !isOpen }">Admin</h2>
+        <hr class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
+        <ul v-if="admin" class="nav flex-column mt-4" :class="{ 'hide-list': !isOpen }">
+            <li class="ms-4  d-flex align-items-center">
+                <i class="fa-solid fa-users fa-lg text-white"></i>
+                <router-link class="text-white text-decoration-none fs-5 ms-2" to="/users-list">Usuários</router-link>
+            </li>
+            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff" />
+
+            <li class="ms-4 d-flex align-items-center">
+                <i class="fa-solid fa-bell fa-lg text-white"></i>
+                <router-link class="text-white text-decoration-none fs-5 ms-2"
+                    to="/notifications">Notificações</router-link>
+            </li>
+            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
+        </ul>
+
         <h2 class="title text-white text-center mt-4 mb-2" :class="{ 'hide-list': !isOpen }">Planilhas</h2>
         <hr class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
         <ul class="nav flex-column mt-4" :class="{ 'hide-list': !isOpen }">
@@ -24,6 +41,11 @@ export default {
     name: 'Sidebar',
     props: {
         isOpen: Boolean
+    },
+    data() {
+        return {
+            admin: true
+        }
     }
 }
 </script>

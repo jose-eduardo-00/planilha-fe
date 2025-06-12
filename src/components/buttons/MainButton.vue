@@ -1,7 +1,10 @@
 <template>
-    <button class="btn btn-dark" :class="customClass" :onClick="onClick">
-        {{ text }}
-    </button>
+    <div :style="{ width, height }">
+        <button class="btn btn-dark w-100 h-100" :class="customClass" @click="onClick" :disabled="isLoading">
+            <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span v-else>{{ text }}</span>
+        </button>
+    </div>
 </template>
 
 <script>
@@ -19,7 +22,19 @@ export default {
         onClick: {
             type: Function,
             required: false
-        }
+        },
+        isLoading: {
+            type: Boolean,
+            default: false
+        },
+        width: {
+            type: String,
+            default: '0px',
+        },
+        height: {
+            type: String,
+            default: '0px',
+        },
     },
     data() {
         return {
