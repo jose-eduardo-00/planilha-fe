@@ -1,6 +1,6 @@
 <template>
     <div :style="{ width, height }">
-        <button class="btn btn-dark w-100 h-100" :class="customClass" @click="onClick" :disabled="isLoading">
+        <button class="btn btn-dark w-100 h-100" :class="customClass" @click="onClick" :disabled="isDisabled">
             <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span v-else>{{ text }}</span>
         </button>
@@ -24,6 +24,10 @@ export default {
             required: false
         },
         isLoading: {
+            type: Boolean,
+            default: false
+        },
+        isDisabled: {
             type: Boolean,
             default: false
         },

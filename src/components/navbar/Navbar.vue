@@ -30,7 +30,7 @@
                 </li>
                 <li class="mt-4 d-flex justify-content-center">
                     <MainButton customClass="fw-medium" :width="'90%'" :height="'40px'" text="Sair"
-                        :onClick="handleLogout" :isLoading="false" />
+                        :onClick="handleLogout" :isLoading="false" :isDisabled="false" />
                 </li>
             </ul>
         </div>

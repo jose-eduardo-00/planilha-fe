@@ -24,7 +24,8 @@
                             </div>
                             <div class="card-footer d-flex justify-content-end">
                                 <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Editar"
-                                    data-bs-toggle="modal" data-bs-target="#profileModal" :isLoading="false" />
+                                    data-bs-toggle="modal" data-bs-target="#profileModal" :isLoading="false"
+                                    :isDisabled="false" />
                             </div>
 
                             <EditProfileModal id="profileModal" title="Editar Perfil" customClass="">
@@ -37,7 +38,7 @@
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
                                     <MainButton customClass="fw-medium" text="Salvar" :width="'100px'" :height="'40px'"
-                                        :onClick="handleEditProfile" :isLoading="false" />
+                                        :onClick="handleEditProfile" :isLoading="false" :isDisabled="false" />
                                 </template>
                             </EditProfileModal>
                         </div>
@@ -61,7 +62,8 @@
                             </div>
                             <div class="card-footer d-flex justify-content-end">
                                 <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Editar"
-                                    data-bs-toggle="modal" data-bs-target="#baseDataModal" :isLoading="false" />
+                                    data-bs-toggle="modal" data-bs-target="#baseDataModal" :isLoading="false"
+                                    :isDisabled="false" />
                             </div>
 
                             <EditProfileModal id="baseDataModal" title="Editar Perfil" customClass="">
@@ -74,7 +76,7 @@
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
                                     <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Salvar"
-                                        :onClick="handleEditBaseData" :isLoading="false" />
+                                        :onClick="handleEditBaseData" :isLoading="false" :isDisabled="false" />
                                 </template>
                             </EditProfileModal>
 

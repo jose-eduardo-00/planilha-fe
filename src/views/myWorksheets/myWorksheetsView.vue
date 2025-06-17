@@ -11,7 +11,7 @@
                         <h4 class="fw-semibold mt-2">Planilhas</h4>
                         <MainButton customClass="fw-medium " :width="'160px'" :height="'40px'" text="Criar planilha"
                             :onClick="handleModalCreateWorksheet" :isLoading="false" data-bs-toggle="modal"
-                            data-bs-target="#createWorksheetModal" />
+                            data-bs-target="#createWorksheetModal" :isDisabled="false" />
                     </div>
                     <div class="card-body mt-4">
                         <div class="d-flex gap-2 flex-wrap justify-content-center">
@@ -26,7 +26,7 @@
                         </div>
                         <div class="d-flex justify-content-center mt-4">
                             <MainButton customClass="fw-medium " :width="'160px'" :height="'40px'" text="Ver Mais"
-                                :onClick="handleMore" :isLoading="false" />
+                                :onClick="handleMore" :isLoading="false" :isDisabled="false" />
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                     <template #footer>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                         <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Criar"
-                            :onClick="handleCreateWorksheet" :isLoading="false" />
+                            :onClick="handleCreateWorksheet" :isLoading="false" :isDisabled="false" />
                     </template>
                 </CreateWorksheetModal>
 
