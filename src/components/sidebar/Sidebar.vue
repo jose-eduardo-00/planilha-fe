@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar" :class="{ collapsed: !isOpen }">
-        <h2 class="title text-white text-center mt-4 mb-2" :class="{ 'hide-list': !isOpen }">Admin</h2>
+        <h2 class="title text-white text-center mt-4 mb-2 fs-3" :class="{ 'hide-list': !isOpen }">Admin</h2>
         <hr class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
         <ul v-if="admin" class="nav flex-column mt-4" :class="{ 'hide-list': !isOpen }">
             <li class="ms-4  d-flex align-items-center">
@@ -17,7 +17,7 @@
             <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
         </ul>
 
-        <h2 class="title text-white text-center mt-4 mb-2" :class="{ 'hide-list': !isOpen }">Planilhas</h2>
+        <h2 class="title text-white text-center mt-4 mb-2 fs-3" :class="{ 'hide-list': !isOpen }">Planilhas</h2>
         <hr class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
         <ul class="nav flex-column mt-4" :class="{ 'hide-list': !isOpen }">
             <li class="ms-4  d-flex align-items-center">

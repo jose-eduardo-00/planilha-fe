@@ -7,6 +7,7 @@ import ProfileView from "../views/profile/profileView.vue";
 import MyWorksheetsView from "../views/myWorksheets/myWorksheetsView.vue";
 import UsersListView from "../views/usersList/usersListView.vue";
 import NotificationView from "../views/notifications/notificationsView.vue";
+import WorksheetView from "../views/worksheet/WorksheetView.vue";
 
 const routes = [
   { path: "/", name: "Login", component: LoginView },
@@ -16,6 +17,7 @@ const routes = [
   { path: "/my-worksheets", name: "MyWorksheets", component: MyWorksheetsView },
   { path: "/users-list", name: "UsersList", component: UsersListView },
   { path: "/notifications", name: "Notification", component: NotificationView },
+  { path: "/worksheet/:id", name: "Worksheet", component: WorksheetView },
 ];
 
 const router = createRouter({

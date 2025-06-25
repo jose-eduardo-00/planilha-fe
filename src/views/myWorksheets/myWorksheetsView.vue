@@ -15,14 +15,14 @@
                     </div>
                     <div class="card-body mt-4">
                         <div class="d-flex gap-2 flex-wrap justify-content-center">
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
-                            <MainCard :width="'20%'" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
+                            <MainCard :width="'20%'" :redirect="handleWorksheet" />
                         </div>
                         <div class="d-flex justify-content-center mt-4">
                             <MainButton customClass="fw-medium " :width="'160px'" :height="'40px'" text="Ver Mais"
@@ -76,6 +76,9 @@ export default {
         handleModalCreateWorksheet() { },
         handleCreateWorksheet() { },
         handleMore() { },
+        handleWorksheet() {
+            this.$router.push({ name: 'Worksheet', params: { id: "1" } });
+        },
     }
 }
 </script>

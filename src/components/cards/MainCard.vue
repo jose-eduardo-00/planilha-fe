@@ -1,5 +1,6 @@
 <template>
-    <div class="card card-overlay position-relative overflow-hidden shadow" :style="{ width }" style="cursor: pointer;">
+    <div class="card card-overlay position-relative overflow-hidden shadow" :style="{ width }" style="cursor: pointer;"
+        @click="redirect()">
         <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
 
         <div class="card-header px-4 pt-3 text-white text-center" style="background-color: #212121 !important;">
@@ -26,6 +27,10 @@ export default {
         width: {
             type: String,
             default: '0px',
+        },
+        redirect: {
+            type: Function,
+            required: true,
         },
     }
 }
