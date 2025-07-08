@@ -3,7 +3,8 @@
         <label v-if="label" :for="inputId" class="form-label">{{ label }}</label>
 
         <input :id="inputId" :type="inputType" :placeholder="placeholder" class="form-control pe-5" :class="customClass"
-            :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
+            v-model="localValue" :maxlength="maxLength" />
+
         <i v-if="type === 'password'" :class="['fa-regular', showPassword ? 'fa-eye-slash' : 'fa-eye']"
             class="position-absolute" style="top: 45px; right: 15px; cursor: pointer; z-index: 10;"
             @click="togglePassword"></i>
@@ -23,9 +24,12 @@ export default {
         placeholder: String,
         customClass: String,
         customDivClass: String,
+        maxLength: [String, Number],
+        maskFunction: Function,
     },
     data() {
         return {
+            localValue: this.modelValue,
             showPassword: false,
         };
     },
@@ -35,6 +39,24 @@ export default {
         },
         inputType() {
             return this.type === 'password' && this.showPassword ? 'text' : this.type;
+        },
+    },
+    watch: {
+        modelValue(val) {
+            this.localValue = val;
+        },
+        localValue(val) {
+            let masked = this.maskFunction ? this.maskFunction(val) : val;
+
+            // Evita loops infinitos
+            if (masked !== this.modelValue) {
+                this.$emit('update:modelValue', masked);
+            }
+
+            // Atualiza localValue se máscara modificou o valor
+            if (masked !== val) {
+                this.localValue = masked;
+            }
         },
     },
     methods: {
