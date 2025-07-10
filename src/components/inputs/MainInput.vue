@@ -2,8 +2,19 @@
     <div class="mb-3 position-relative" :class="customDivClass">
         <label v-if="label" :for="inputId" class="form-label">{{ label }}</label>
 
-        <input :id="inputId" :type="inputType" :placeholder="placeholder" class="form-control pe-5" :class="customClass"
-            v-model="localValue" :maxlength="maxLength" />
+        <input :id="inputId" :type="inputType" :placeholder="placeholder" class="form-control pe-5"
+            :class="[customClass, { 'is-valid': success && type != 'password', 'is-invalid': error && type != 'password' }]"
+            v-model="localValue" :maxlength="maxLength" :style="{
+                borderColor: success && type === 'password' ? '#198754'
+                    : error && type === 'password' ? '#dc3545'
+                        : '',
+                boxShadow:
+                    isFocused && success && type === 'password'
+                        ? '0 0 0 0.25rem rgba(25, 135, 84, 0.25)'
+                        : isFocused && error && type === 'password'
+                            ? '0 0 0 0.25rem rgba(220, 53, 69, 0.25)'
+                            : '',
+            }" @focus="onFocus" @blur="onBlur" />
 
         <i v-if="type === 'password'" :class="['fa-regular', showPassword ? 'fa-eye-slash' : 'fa-eye']"
             class="position-absolute" style="top: 45px; right: 15px; cursor: pointer; z-index: 10;"
@@ -26,11 +37,14 @@ export default {
         customDivClass: String,
         maxLength: [String, Number],
         maskFunction: Function,
+        success: Boolean,
+        error: Boolean,
     },
     data() {
         return {
             localValue: this.modelValue,
             showPassword: false,
+            isFocused: false,
         };
     },
     computed: {
@@ -62,6 +76,12 @@ export default {
     methods: {
         togglePassword() {
             this.showPassword = !this.showPassword;
+        },
+        onFocus() {
+            this.isFocused = true;
+        },
+        onBlur() {
+            this.isFocused = false;
         },
     },
 };
