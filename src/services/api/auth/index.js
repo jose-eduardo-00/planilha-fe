@@ -51,4 +51,52 @@ export default {
       return error.response || error.message || error;
     }
   },
+
+  login: async (email, password) => {
+    try {
+      const response = await http.post(
+        "/auth/login",
+        {
+          email: email,
+          senha: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  // adicionar a api de send email e continuar dai
+  sendEmail: async (email) => {
+    try {
+      const response = await http.post(
+        "/auth/send-email",
+        {
+          email: email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };

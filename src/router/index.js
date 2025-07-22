@@ -9,6 +9,7 @@ import UsersListView from "../views/usersList/usersListView.vue";
 import NotificationView from "../views/notifications/notificationsView.vue";
 import WorksheetView from "../views/worksheet/WorksheetView.vue";
 import ForgotPassView from "../views/auth/forgotPass/ForgotPassView.vue";
+import VerifyCodeView from "../views/auth/verifyCode/VerifyCodeView.vue";
 
 const routes = [
   { path: "/", name: "Login", component: LoginView },
@@ -20,6 +21,7 @@ const routes = [
   { path: "/users-list", name: "UsersList", component: UsersListView },
   { path: "/notifications", name: "Notification", component: NotificationView },
   { path: "/worksheet/:id", name: "Worksheet", component: WorksheetView },
+  { path: "/verify-code", name: "VerifyCode", component: VerifyCodeView },
 ];
 
 const router = createRouter({
