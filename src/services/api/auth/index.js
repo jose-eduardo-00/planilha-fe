@@ -76,7 +76,6 @@ export default {
     }
   },
 
-  // adicionar a api de send email e continuar dai
   sendEmail: async (email) => {
     try {
       const response = await http.post(
@@ -90,6 +89,29 @@ export default {
             Accept: "application/json",
             "Access-Control-Allow-Headers": "*",
             "Access-Control-Allow-Methods": "OPTIONS,POST,GET",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+
+  resetPass: async (id, senha) => {
+    try {
+      const response = await http.put(
+        `/users/update-password/${id}`,
+        {
+          senha: senha,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,PUT",
           },
         }
       );

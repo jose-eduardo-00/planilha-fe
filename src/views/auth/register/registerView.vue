@@ -119,14 +119,19 @@ export default {
             this.errorEmail = val !== '' && !this.successEmail;
         },
         password(val) {
-            // pelo menos uma letra maiúscula, um número e um símbolo
             const strongPassword = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-])/;
+
             this.successPassword = strongPassword.test(val);
             this.errorPassword = val !== '' && !this.successPassword;
+
+            this.successConfPassword = this.confPassword === val && this.successPassword;
+            this.errorConfPassword = this.confPassword !== '' && !this.successConfPassword;
         },
         confPassword(val) {
-            this.successConfPassword = val === this.password && val !== '';
-            this.errorConfPassword = val !== '' && val !== this.password;
+            this.confPassword = val;
+
+            this.successConfPassword = val === this.password && this.successPassword;
+            this.errorConfPassword = val !== '' && !this.successConfPassword;
         },
         code(val) {
             this.successCode = val.length === 6;

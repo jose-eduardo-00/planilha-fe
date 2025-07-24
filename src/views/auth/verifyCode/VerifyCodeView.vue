@@ -121,9 +121,10 @@ export default {
             if (!email) {
                 this.alertMessage = 'Por favor, insira um email válido.';
                 this.alertTitle = 'Erro';
-                this.alertType = 'error';
+                this.alertType = 'danger';
                 this.alertVisible = true;
                 this.errorEmail = true;
+                this.isLoading = false;
 
                 setTimeout(() => {
                     this.alertVisible = false;
@@ -145,7 +146,6 @@ export default {
                         this.alertType = 'success';
                         this.alertVisible = true;
 
-                        console.log(res.data)
                         this.userId = res.data.userId;
 
                         setTimeout(() => {
@@ -171,7 +171,7 @@ export default {
                         this.errorEmail = true;
                         this.alertMessage = 'Email inválido ou não cadastrado.';
                         this.alertTitle = 'Erro';
-                        this.alertType = 'error';
+                        this.alertType = 'danger';
                         this.alertVisible = true;
 
                         setTimeout(() => {
@@ -186,7 +186,7 @@ export default {
                         this.errorEmail = true;
                         this.alertMessage = 'Email não encontrado na base de dados.';
                         this.alertTitle = 'Erro';
-                        this.alertType = 'error';
+                        this.alertType = 'danger';
                         this.alertVisible = true;
 
                         setTimeout(() => {
@@ -216,7 +216,7 @@ export default {
                         this.errorEmail = true;
                         this.alertMessage = 'Erro de conexão. Tente novamente mais tarde.';
                         this.alertTitle = 'Erro';
-                        this.alertType = 'error';
+                        this.alertType = 'danger';
                         this.alertVisible = true;
 
                         setTimeout(() => {
@@ -235,7 +235,7 @@ export default {
 
                     this.alertMessage = 'Erro ao enviar o código. Tente novamente mais tarde.';
                     this.alertTitle = 'Erro';
-                    this.alertType = 'error';
+                    this.alertType = 'danger';
                     this.alertVisible = true;
 
                     setTimeout(() => {
@@ -257,7 +257,7 @@ export default {
                 this.errorCode = true;
                 this.alertMessage = 'Código inválido.';
                 this.alertTitle = 'Erro';
-                this.alertType = 'error';
+                this.alertType = 'danger';
                 this.alertVisible = true;
 
                 setTimeout(() => {
@@ -275,7 +275,7 @@ export default {
                 this.errorCode = true;
                 this.alertMessage = 'O código deve ter 6 dígitos.';
                 this.alertTitle = 'Erro';
-                this.alertType = 'error';
+                this.alertType = 'danger';
                 this.alertVisible = true;
 
                 setTimeout(() => {
@@ -317,7 +317,7 @@ export default {
 
                     this.alertMessage = 'Código inválido ou expirado.';
                     this.alertTitle = 'Erro';
-                    this.alertType = 'error';
+                    this.alertType = 'danger';
                     this.alertVisible = true;
 
                     setTimeout(() => {
@@ -334,7 +334,7 @@ export default {
 
                     this.alertMessage = 'Código não encontrado ou já utilizado.';
                     this.alertTitle = 'Erro';
-                    this.alertType = 'error';
+                    this.alertType = 'danger';
                     this.alertVisible = true;
 
                     setTimeout(() => {
@@ -351,7 +351,7 @@ export default {
 
                     this.alertMessage = 'Erro de conexão. Tente novamente mais tarde.';
                     this.alertTitle = 'Erro';
-                    this.alertType = 'error';
+                    this.alertType = 'danger';
                     this.alertVisible = true;
 
                     setTimeout(() => {
@@ -369,7 +369,7 @@ export default {
 
                 this.alertMessage = 'Erro ao verificar o código. Tente novamente mais tarde.';
                 this.alertTitle = 'Erro';
-                this.alertType = 'error';
+                this.alertType = 'danger';
                 this.alertVisible = true;
 
                 setTimeout(() => {
