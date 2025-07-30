@@ -14,12 +14,12 @@
                             <div class="card-body p-4">
                                 <div class="mb-4">
                                     <h4>Nome</h4>
-                                    <p class="border-bottom pb-2 border-black px-2 text-secondary-emphasis">José Eduardo
-                                    </p>
+                                    <p v-if="user" class="border-bottom pb-2 border-black px-2 text-secondary-emphasis">
+                                        {{ user.name }}</p>
                                 </div>
                                 <div>
                                     <h4>Email</h4>
-                                    <p class="border-bottom pb-2 border-black px-2">example@gmail.com</p>
+                                    <p v-if="user" class="border-bottom pb-2 border-black px-2">{{ user.email }}</p>
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
@@ -57,7 +57,7 @@
                                 <div>
                                     <h4>Outras Fontes</h4>
                                     <p class="border-bottom pb-2 border-black px-2">{{ formatarDinheiro(outrasFontes)
-                                    }}</p>
+                                        }}</p>
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
@@ -68,8 +68,9 @@
 
                             <EditProfileModal id="baseDataModal" title="Editar Perfil" customClass="">
                                 <template #default>
-                                    <MainInput v-model="input1" label="Salário" placeholder="R$ 1000,00" />
-                                    <MainInput v-model="input2" label="Outras Fontes" placeholder="R$ 1000,00" />
+                                    <MainInput v-model="salarioEdit" label="Salário" placeholder="R$ 1000,00" />
+                                    <MainInput v-model="outrasFontesEdit" label="Outras Fontes"
+                                        placeholder="R$ 1000,00" />
                                 </template>
 
                                 <template #footer>
@@ -100,6 +101,8 @@ import Footer from '../../components/footer/Footer.vue'
 import MainButton from '../../components/buttons/MainButton.vue'
 import EditProfileModal from '../../components/modals/EditProfileModal.vue'
 import MainInput from '../../components/inputs/MainInput.vue'
+import { useAuthStore } from '../../store'
+import handleCheckToken from '../../utils/checkToken'
 
 export default {
     name: 'Profile',
@@ -114,9 +117,36 @@ export default {
             outrasFontesEdit: 0,
             nomeEdit: "",
             emailEdit: "",
+            token: null,
+            user: null,
         }
     },
+    mounted() {
+        this.checkAuth();
+    },
     methods: {
+        async checkAuth() {
+            const auth = useAuthStore();
+            auth.loadToken();
+
+            const logged = await handleCheckToken(auth.token);
+
+            if (!logged) {
+                this.$router.push('/');
+            } else {
+                this.token = auth.token;
+                this.user = auth.user;
+
+                this.salario = this.user.salario || 0;
+                this.outrasFontes = this.user.outrasFontes || 0;
+
+                this.nomeEdit = this.user.name || "";
+                this.emailEdit = this.user.email || "";
+
+                this.salarioEdit = this.formatarDinheiro(this.salario);
+                this.outrasFontesEdit = this.formatarDinheiro(this.outrasFontes);
+            }
+        },
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen
         },
@@ -126,8 +156,18 @@ export default {
                 currency: 'BRL'
             }).format(valor);
         },
-        handleEditProfile() { },
-        handleEditBaseData() { },
+        handleEditProfile() {
+            console.log("Editando perfil com:", {
+                nome: this.nomeEdit,
+                email: this.emailEdit
+            });
+        },
+        handleEditBaseData() {
+            console.log("Editando dados base com:", {
+                salario: this.salarioEdit,
+                outrasFontes: this.outrasFontesEdit
+            });
+        },
     }
 }
 </script>

@@ -52,11 +52,13 @@
 </template>
 
 <script>
+import { jwtDecode } from 'jwt-decode';
 import MainAlertView from '../../../components/alerts/MainAlertView.vue';
 import MainButton from '../../../components/buttons/MainButton.vue';
 import MainInput from '../../../components/inputs/MainInput.vue';
 import api from '../../../services/api/auth/index';
 import { useAuthStore } from '../../../store/index';
+import handleCheckToken from '../../../utils/checkToken';
 
 export default {
     name: 'LoginView',
@@ -81,12 +83,24 @@ export default {
         };
     },
     mounted() {
-        const auth = useAuthStore();
-        auth.loadToken();
-
-        this.handleCheckToken()
+        this.checkAuth();
     },
     methods: {
+        async checkAuth() {
+            const auth = useAuthStore();
+            auth.loadToken();
+
+            const logged = await handleCheckToken(auth.token);
+            console.log("Logged:", logged);
+            if (!logged) {
+                this.$router.push('/');
+            } else {
+                this.token = auth.token;
+                const decoded = jwtDecode(auth.token);
+                auth.setUser(decoded.user);
+                this.$router.push('/Home');
+            }
+        },
         handleLogin() {
             this.isLoading = true;
 
@@ -215,25 +229,25 @@ export default {
             this.$router.push('/verify-code');
         },
 
-        handleCheckToken() {
-            const auth = useAuthStore()
+        // handleCheckToken() {
+        //     const auth = useAuthStore()
 
-            const token = auth.token
+        //     const token = auth.token
 
-            if (token) {
-                api.checkToken(token)
-                    .then((res) => {
-                        if (res.status === 200) {
-                            this.$router.push('/Home');
-                        } else {
-                            auth.logout();
-                        }
-                    })
-                    .catch((error) => {
-                        auth.logout();
-                    });
-            }
-        }
+        //     if (token) {
+        //         api.checkToken(token)
+        //             .then((res) => {
+        //                 if (res.status === 200) {
+        //                     this.$router.push('/Home');
+        //                 } else {
+        //                     auth.logout();
+        //                 }
+        //             })
+        //             .catch((error) => {
+        //                 auth.logout();
+        //             });
+        //     }
+        // }
     },
 }
 </script>

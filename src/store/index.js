@@ -1,3 +1,4 @@
+import { jwtDecode } from "jwt-decode";
 import { defineStore } from "pinia";
 
 export const useAuthStore = defineStore("auth", {
@@ -22,6 +23,8 @@ export const useAuthStore = defineStore("auth", {
       const token = localStorage.getItem("token");
       if (token) {
         this.token = token;
+        const decoded = jwtDecode(token);
+        this.user = decoded.user;
       }
     },
   },
