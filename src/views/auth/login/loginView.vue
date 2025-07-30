@@ -27,7 +27,7 @@
                     <MainInput v-model="email" label="Email" placeholder="seu@email.com" :success="successName"
                         :error="errorName" />
                     <MainInput v-model="password" label="Senha" placeholder="**********" type="password"
-                        :success="successPassword" :error="errorPassword" />
+                        :success="successPassword" :error="errorPassword" @keydown.enter="handleLogin" />
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center mt-2 mb-4 gap-3">
@@ -79,6 +79,12 @@ export default {
             successPassword: false,
             errorPassword: false,
         };
+    },
+    mounted() {
+        const auth = useAuthStore();
+        auth.loadToken();
+
+        this.handleCheckToken()
     },
     methods: {
         handleLogin() {
@@ -208,6 +214,26 @@ export default {
 
             this.$router.push('/verify-code');
         },
+
+        handleCheckToken() {
+            const auth = useAuthStore()
+
+            const token = auth.token
+
+            if (token) {
+                api.checkToken(token)
+                    .then((res) => {
+                        if (res.status === 200) {
+                            this.$router.push('/Home');
+                        } else {
+                            auth.logout();
+                        }
+                    })
+                    .catch((error) => {
+                        auth.logout();
+                    });
+            }
+        }
     },
 }
 </script>

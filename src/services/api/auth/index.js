@@ -121,4 +121,27 @@ export default {
       return error.response || error.message || error;
     }
   },
+
+  checkToken: async (token) => {
+    try {
+      const response = await http.post(
+        `/auth/check-token`,
+        {
+          token: token,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };
