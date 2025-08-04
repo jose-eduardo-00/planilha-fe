@@ -91,7 +91,7 @@ export default {
             auth.loadToken();
 
             const logged = await handleCheckToken(auth.token);
-            console.log("Logged:", logged);
+
             if (!logged) {
                 this.$router.push('/');
             } else {

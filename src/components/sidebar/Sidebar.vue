@@ -37,6 +37,10 @@
 </template>
 
 <script>
+import { useAuthStore } from '../../store/index';
+import handleCheckToken from '../../utils/checkToken';
+import { jwtDecode } from 'jwt-decode';
+
 export default {
     name: 'Sidebar',
     props: {
@@ -44,9 +48,28 @@ export default {
     },
     data() {
         return {
-            admin: true
+            admin: true,
+            token: null
         }
-    }
+    },
+    mounted() {
+        this.checkAuth();
+    },
+    methods: {
+        async checkAuth() {
+            const auth = useAuthStore();
+            auth.loadToken();
+
+            const logged = await handleCheckToken(auth.token);
+            if (!logged) {
+                this.$router.push('/');
+            } else {
+                this.token = auth.token;
+                const decoded = jwtDecode(auth.token);
+                auth.setUser(decoded.user);
+            }
+        },
+    },
 }
 </script>
 
