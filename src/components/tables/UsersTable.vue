@@ -5,6 +5,7 @@
                 <th class="text-center fw-bold">Nome</th>
                 <th class="text-center fw-bold">Email</th>
                 <th class="text-center fw-bold">Nível</th>
+                <th class="text-center fw-bold">Origem</th>
                 <th class="text-center fw-bold">Status</th>
                 <th class="text-center fw-bold">Data de Registro</th>
                 <th class="text-center fw-bold">Ações</th>
@@ -21,6 +22,9 @@
                 <td v-if="user.nivel == 2" class="text-center">
                     <span class="fw-medium rounded bg-primary py-1 px-2 text-white">Cliente</span>
                 </td>
+
+                <td v-if="user.origin == 1" class="text-center fw-medium">Desktop</td>
+                <td v-if="user.origin == 2" class="text-center fw-medium">Mobile</td>
 
                 <td v-if="user.status == 1" class="text-center"><span
                         class="bg-success py-1 px-2 rounded text-white fw-medium">Ativo</span></td>

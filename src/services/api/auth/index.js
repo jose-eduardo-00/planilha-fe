@@ -12,6 +12,7 @@ export default {
           renda_mensal: "00",
           expoToken: "",
           nivel: 2,
+          origin: 1,
         },
         {
           headers: {
@@ -59,6 +60,7 @@ export default {
         {
           email: email,
           senha: password,
+          last_access: 1,
         },
         {
           headers: {
@@ -128,6 +130,7 @@ export default {
         `/auth/check-token`,
         {
           token: token,
+          last_access: 1,
         },
         {
           headers: {
