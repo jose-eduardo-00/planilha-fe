@@ -4,30 +4,36 @@
             <tr>
                 <th class="text-center fw-bold">Nome</th>
                 <th class="text-center fw-bold">Email</th>
-                <th class="text-center fw-bold">Tipo</th>
+                <th class="text-center fw-bold">Nível</th>
                 <th class="text-center fw-bold">Status</th>
                 <th class="text-center fw-bold">Data de Registro</th>
                 <th class="text-center fw-bold">Ações</th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="user in users" :key="user.id">
+            <tr v-for="user in users" :key="user.id" class="align-middle">
                 <td class="text-center fw-medium">{{ user.name }}</td>
-                <td class="text-center fw-medium pt-2">{{ user.email }}</td>
+                <td class="text-center fw-medium">{{ user.email }}</td>
 
-                <td v-if="user.type == 1" class="text-center fw-medium pt-2">Admin</td>
-                <td v-if="user.type == 2" class="text-center fw-medium pt-2">Cliente</td>
+                <td v-if="user.nivel == 1" class="text-center">
+                    <span class="fw-medium rounded bg-black py-1 px-2 text-white">Admin</span>
+                </td>
+                <td v-if="user.nivel == 2" class="text-center">
+                    <span class="fw-medium rounded bg-primary py-1 px-2 text-white">Cliente</span>
+                </td>
 
                 <td v-if="user.status == 1" class="text-center"><span
                         class="bg-success py-1 px-2 rounded text-white fw-medium">Ativo</span></td>
-                <td v-if="user.status == 2" class="text-center pt-2"><span
+                <td v-if="user.status == 2" class="text-center"><span
                         class="bg-danger py-1 px-2 rounded text-white fw-medium">Inativo</span></td>
 
                 <td class="text-center fw-medium pt-2">{{ formatDate(user.createdAt) }}</td>
                 <td class="text-center fw-medium pt-2">
-                    <button v-if="user.status == 2" class="btn btn-sm btn-success" @click="handleActiveUser(user)"><i
+                    <button v-if="user.status == 2" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                        :data-bs-target="`#blockedModal${user.id}`" @click="handleActiveUser(user)"><i
                             class="fa-solid fa-check"></i></button>
-                    <button v-if="user.status == 1" class="btn btn-sm btn-danger" @click="handleDesactiveUser(user)"><i
+                    <button v-if="user.status == 1" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        :data-bs-target="`#blockedModal${user.id}`" @click="handleDesactiveUser(user)"><i
                             class="fa-solid fa-ban"></i></button>
                     <button class="btn btn-sm btn-warning ms-1" @click="openEditModal(user)" data-bs-toggle="modal"
                         :data-bs-target="`#profileModal${user.id}`"><i
@@ -39,6 +45,24 @@
             </tr>
         </tbody>
     </table>
+
+    <EditProfileModal v-for="user in users" :key="user.id" :id="`blockedModal${user.id}`" title="Editar Perfil"
+        customClass="">
+        <template #default>
+            <div class="align-items-center text-center mt-3">
+                <p>Deseja {{ user.status == 1 ? 'desbloquear' : 'bloquear' }} o usuário {{ user.name }} ?</p>
+            </div>
+        </template>
+
+        <template #footer>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <MainButton
+                :customClass="'fw-medium ' + (user.status == 1 ? 'bg-danger border border-danger' : 'bg-success border border-success')"
+                :text="user.status == 1 ? 'Desbloquear' : 'Bloquear'" :width="''" :height="'40px'"
+                :onClick="user.status == 1 ? handleDesactiveUser : handleActiveUser" :isLoading="false"
+                :isDisabled="false" />
+        </template>
+    </EditProfileModal>
 
     <EditProfileModal v-for="user in users" :key="user.id" :id="`profileModal${user.id}`" title="Editar Perfil"
         customClass="">

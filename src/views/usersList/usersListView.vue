@@ -54,6 +54,7 @@ import Footer from '../../components/footer/Footer.vue'
 import MainButton from '../../components/buttons/MainButton.vue'
 import SearchInput from '../../components/inputs/SearchInput.vue'
 import UsersTable from '../../components/tables/UsersTable.vue'
+import api from '../../services/api/user/index.js'
 
 export default {
     name: 'UsersList',
@@ -64,10 +65,7 @@ export default {
             searchInput: "",
             currentPage: 1,
             itemsPerPage: 5,
-            users: [
-                { id: 1, name: 'José Eduardo', email: 'jose@gmail.com', type: 1, status: 1, createdAt: '2024-01-10' },
-                { id: 2, name: 'Maria Silva', email: 'maria@gmail.com', type: 2, status: 2, createdAt: '2023-12-05' },
-            ]
+            users: []
         }
     },
     computed: {
@@ -90,6 +88,9 @@ export default {
             this.currentPage = 1
         }
     },
+    mounted() {
+        this.getAllUsers()
+    },
     methods: {
         toggleSidebar() {
             this.isSidebarOpen = !this.isSidebarOpen
@@ -104,6 +105,15 @@ export default {
                 this.currentPage--
             }
         },
+        getAllUsers() {
+            api.getAllUsers().then((res) => {
+                if (res.status === 200) {
+                    this.users = res.data.users
+                }
+            }).catch((error) => {
+                console.error("Error fetching users:", error)
+            })
+        }
     }
 }
 </script>
