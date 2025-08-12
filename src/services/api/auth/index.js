@@ -147,4 +147,28 @@ export default {
       return error.response || error.message || error;
     }
   },
+
+  logout: async (id, token) => {
+    try {
+      const response = await http.post(
+        "/auth/logout",
+        {
+          token: token,
+          userId: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };
