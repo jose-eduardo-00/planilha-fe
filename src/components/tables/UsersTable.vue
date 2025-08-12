@@ -28,17 +28,15 @@
 
                 <td v-if="user.status == 1" class="text-center"><span
                         class="bg-success py-1 px-2 rounded text-white fw-medium">Ativo</span></td>
-                <td v-if="user.status == 2" class="text-center"><span
+                <td v-if="user.status == 0" class="text-center"><span
                         class="bg-danger py-1 px-2 rounded text-white fw-medium">Inativo</span></td>
 
                 <td class="text-center fw-medium pt-2">{{ formatDate(user.createdAt) }}</td>
                 <td class="text-center fw-medium pt-2">
-                    <button v-if="user.status == 2" class="btn btn-sm btn-success" data-bs-toggle="modal"
-                        :data-bs-target="`#blockedModal${user.id}`" @click="handleActiveUser(user)"><i
-                            class="fa-solid fa-check"></i></button>
+                    <button v-if="user.status == 0" class="btn btn-sm btn-success" data-bs-toggle="modal"
+                        :data-bs-target="`#blockedModal${user.id}`"><i class="fa-solid fa-check"></i></button>
                     <button v-if="user.status == 1" class="btn btn-sm btn-danger" data-bs-toggle="modal"
-                        :data-bs-target="`#blockedModal${user.id}`" @click="handleDesactiveUser(user)"><i
-                            class="fa-solid fa-ban"></i></button>
+                        :data-bs-target="`#blockedModal${user.id}`"><i class="fa-solid fa-ban"></i></button>
                     <button class="btn btn-sm btn-warning ms-1" @click="openEditModal(user)" data-bs-toggle="modal"
                         :data-bs-target="`#profileModal${user.id}`"><i
                             class="fa-solid fa-pen-to-square text-white"></i></button>
@@ -54,7 +52,7 @@
         customClass="">
         <template #default>
             <div class="align-items-center text-center mt-3">
-                <p>Deseja {{ user.status == 1 ? 'desbloquear' : 'bloquear' }} o usuário {{ user.name }} ?</p>
+                <p>Deseja {{ user.status == 1 ? 'bloquear' : 'desbloquear' }} o usuário {{ user.name }} ?</p>
             </div>
         </template>
 
@@ -62,9 +60,9 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <MainButton
                 :customClass="'fw-medium ' + (user.status == 1 ? 'bg-danger border border-danger' : 'bg-success border border-success')"
-                :text="user.status == 1 ? 'Desbloquear' : 'Bloquear'" :width="''" :height="'40px'"
-                :onClick="user.status == 1 ? handleDesactiveUser : handleActiveUser" :isLoading="false"
-                :isDisabled="false" />
+                :text="user.status == 1 ? 'Bloquear' : 'Desbloquear'" :width="''" :height="'40px'"
+                :onClick="user.status == 1 ? () => funcBlockUser(user) : () => funcActiveUser(user)" :isLoading="false"
+                :isDisabled="false" data-bs-dismiss="modal" />
         </template>
     </EditProfileModal>
 
@@ -78,7 +76,7 @@
         <template #footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <MainButton customClass="fw-medium" text="Salvar" :width="'100px'" :height="'40px'"
-                :onClick="handleEditProfile" :isLoading="false" :isDisabled="false" />
+                :onClick="() => funcEditUser(user)" :isLoading="false" :isDisabled="false" />
         </template>
     </EditProfileModal>
 
@@ -91,7 +89,7 @@
         <template #footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
             <MainButton customClass="fw-medium bg-danger border border-danger" text="Deletar" :width="'100px'"
-                :height="'40px'" :onClick="deleteProfile" :isLoading="false" :isDisabled="false" />
+                :height="'40px'" :onClick="() => funcDeleteUser(user)" :isLoading="false" :isDisabled="false" />
         </template>
     </DeleteModal>
 
@@ -102,6 +100,7 @@ import MainButton from '../buttons/MainButton.vue';
 import MainInput from '../inputs/MainInput.vue';
 import DeleteModal from '../modals/DeleteModal.vue';
 import EditProfileModal from '../modals/EditProfileModal.vue';
+import api from "../../services/api/user/index";
 
 export default {
     name: 'UsersTable',
@@ -109,7 +108,24 @@ export default {
         users: {
             type: Array,
             required: true
-        }
+        },
+        funcDeleteUser: {
+            type: Function,
+            required: true
+        },
+        funcBlockUser: {
+            type: Function,
+            required: true
+        },
+        funcActiveUser: {
+            type: Function,
+            required: true
+        },
+        funcEditUser: {
+            type: Function,
+            required: true
+        },
+
     },
     components: { EditProfileModal, MainButton, MainInput, DeleteModal },
     data() {
@@ -132,10 +148,6 @@ export default {
         formatDate(date) {
             return new Date(date).toLocaleDateString('pt-BR');
         },
-        handleEditProfile() { },
-        deleteProfile() { },
-        handleActiveUser() { },
-        handleDesactiveUser() { },
     }
 }
 </script>

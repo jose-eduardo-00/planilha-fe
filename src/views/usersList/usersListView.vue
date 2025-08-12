@@ -13,14 +13,20 @@
                 </div>
 
                 <div class="card mt-2">
-                    <div class="card-header">
+                    <div class="card-header d-flex flex-row justify-content-between align-items-center">
                         <div style="width: 45%;" class="mt-3">
                             <SearchInput v-model="searchInput" placeholder="nome" />
                         </div>
-
+                        <div class="mt-3">
+                            <MainAlertView v-if="alertVisible" :message="alertMessage" :title="alertTitle"
+                                :type="alertType" class="mb-3"
+                                style="padding-left: 80px !important; padding-right: 80px !important;" />
+                        </div>
                     </div>
                     <div class="card-body">
-                        <UsersTable :users="paginatedUsers" />
+                        <UsersTable :users="paginatedUsers" :funcEditUser="handleEditProfile"
+                            :funcDeleteUser="deleteProfile" :funcBlockUser="handleDesactiveUser"
+                            :funcActiveUser="handleActiveUser" />
                     </div>
                     <div class="card-footer d-flex justify-content-center gap-3 py-3">
 
@@ -55,17 +61,23 @@ import MainButton from '../../components/buttons/MainButton.vue'
 import SearchInput from '../../components/inputs/SearchInput.vue'
 import UsersTable from '../../components/tables/UsersTable.vue'
 import api from '../../services/api/user/index.js'
+import MainAlertView from '../../components/alerts/MainAlertView.vue'
 
 export default {
     name: 'UsersList',
-    components: { Sidebar, Navbar, Footer, SearchInput, MainButton, UsersTable },
+    components: { Sidebar, Navbar, Footer, SearchInput, MainButton, UsersTable, MainAlertView },
     data() {
         return {
             isSidebarOpen: true,
             searchInput: "",
             currentPage: 1,
             itemsPerPage: 5,
-            users: []
+            users: [],
+
+            alertVisible: false,
+            alertMessage: "",
+            alertTitle: "",
+            alertType: ""
         }
     },
     computed: {
@@ -113,7 +125,41 @@ export default {
             }).catch((error) => {
                 console.error("Error fetching users:", error)
             })
-        }
+        },
+
+        handleEditProfile(user) { },
+        deleteProfile(user) {
+            console.log(user)
+        },
+        handleActiveUser(user) {
+            console.log("Ativando o usuario ===>", user)
+
+            api.editStatusUser(user.id, true).then((res) => {
+                if (res.status === 200) {
+                    this.getAllUsers()
+                } else {
+                    this.alertMessage = "Erro ao ativar usuario, tente novamente mais tarde!"
+                    this.alertTitle = "Erro"
+                    this.alertType = "error"
+                    this.alertVisible = true
+                }
+            })
+        },
+        handleDesactiveUser(user) {
+            console.log("Desativando o usuario ===>", user)
+
+            api.editStatusUser(user.id, false).then((res) => {
+                if (res.status === 200) {
+
+                    this.getAllUsers()
+                } else {
+                    this.alertMessage = "Erro ao desativar usuario, tente novamente mais tarde!"
+                    this.alertTitle = "Erro"
+                    this.alertType = "error"
+                    this.alertVisible = true
+                }
+            })
+        },
     }
 }
 </script>

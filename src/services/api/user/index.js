@@ -63,4 +63,24 @@ export default {
       return error.response || error.message || error;
     }
   },
+  editStatusUser: async (id, status) => {
+    try {
+      const response = await http.put(
+        `/users/update-status/${id}`,
+        { status },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,PUT",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };
