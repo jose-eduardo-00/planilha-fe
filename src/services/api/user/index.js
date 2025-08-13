@@ -83,4 +83,20 @@ export default {
       return error.response || error.message || error;
     }
   },
+  deleteUser: async (id) => {
+    try {
+      const response = await http.delete(`/users/delete/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,DELETE",
+        },
+      });
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };

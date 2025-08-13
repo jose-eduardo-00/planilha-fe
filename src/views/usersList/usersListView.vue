@@ -26,7 +26,8 @@
                     <div class="card-body">
                         <UsersTable :users="paginatedUsers" :funcEditUser="handleEditProfile"
                             :funcDeleteUser="deleteProfile" :funcBlockUser="handleDesactiveUser"
-                            :funcActiveUser="handleActiveUser" />
+                            :funcActiveUser="handleActiveUser" :isLoadingActive="isLoadingActive"
+                            :isLoadingEdit="isLoadingEdit" :isLoadingDelete="isLoadingDelete" />
                     </div>
                     <div class="card-footer d-flex justify-content-center gap-3 py-3">
 
@@ -77,7 +78,11 @@ export default {
             alertVisible: false,
             alertMessage: "",
             alertTitle: "",
-            alertType: ""
+            alertType: "",
+
+            isLoadingActive: false,
+            isLoadingEdit: false,
+            isLoadingDelete: false
         }
     },
     computed: {
@@ -127,17 +132,83 @@ export default {
             })
         },
 
-        handleEditProfile(user) { },
+        handleEditProfile(id, name, email) {
+            console.log(id, name, email)
+            this.isLoadingEdit = true
+
+            api.editUser(id, name, email).then((res) => {
+                if (res.status === 200) {
+                    this.isLoadingEdit = false
+                    this.alertMessage = "Usuário editado com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+                    this.getAllUsers()
+                    this.alertVisible = true
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                } else {
+                    this.isLoadingEdit = false
+                    this.alertMessage = "Erro ao editar usuario, tente novamente mais tarde!"
+                    this.alertTitle = "Erro"
+                    this.alertType = "error"
+                    this.alertVisible = true
+                }
+            })
+        },
         deleteProfile(user) {
             console.log(user)
+            this.isLoadingDelete = true
+
+            api.deleteUser(user.id).then((res) => {
+                if (res.status === 200) {
+                    this.isLoadingDelete = false
+                    this.alertMessage = "Usuário deletado com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+                    this.getAllUsers()
+                    this.alertVisible = true
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                } else {
+                    this.isLoadingDelete = false
+                    this.alertMessage = "Erro ao deletar usuario, tente novamente mais tarde!"
+                    this.alertTitle = "Erro"
+                    this.alertType = "error"
+                    this.alertVisible = true
+                }
+            })
         },
         handleActiveUser(user) {
             console.log("Ativando o usuario ===>", user)
+            this.isLoadingActive = true
 
             api.editStatusUser(user.id, true).then((res) => {
                 if (res.status === 200) {
                     this.getAllUsers()
+                    this.isLoadingActive = false
+                    this.alertMessage = "Usuário ativado com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+                    this.alertVisible = true
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
                 } else {
+                    this.isLoadingActive = false
                     this.alertMessage = "Erro ao ativar usuario, tente novamente mais tarde!"
                     this.alertTitle = "Erro"
                     this.alertType = "error"
@@ -147,12 +218,25 @@ export default {
         },
         handleDesactiveUser(user) {
             console.log("Desativando o usuario ===>", user)
+            this.isLoadingActive = true
 
             api.editStatusUser(user.id, false).then((res) => {
                 if (res.status === 200) {
-
+                    this.isLoadingActive = false
                     this.getAllUsers()
+                    this.alertMessage = "Usuário desativado com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+                    this.alertVisible = true
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
                 } else {
+                    this.isLoadingActive = false
                     this.alertMessage = "Erro ao desativar usuario, tente novamente mais tarde!"
                     this.alertTitle = "Erro"
                     this.alertType = "error"

@@ -61,8 +61,8 @@
             <MainButton
                 :customClass="'fw-medium ' + (user.status == 1 ? 'bg-danger border border-danger' : 'bg-success border border-success')"
                 :text="user.status == 1 ? 'Bloquear' : 'Desbloquear'" :width="''" :height="'40px'"
-                :onClick="user.status == 1 ? () => funcBlockUser(user) : () => funcActiveUser(user)" :isLoading="false"
-                :isDisabled="false" data-bs-dismiss="modal" />
+                :onClick="user.status == 1 ? () => funcBlockUser(user) : () => funcActiveUser(user)"
+                :isLoading="isLoadingActive" :isDisabled="isLoadingActive" data-bs-dismiss="modal" />
         </template>
     </EditProfileModal>
 
@@ -75,8 +75,9 @@
 
         <template #footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <MainButton customClass="fw-medium" text="Salvar" :width="'100px'" :height="'40px'"
-                :onClick="() => funcEditUser(user)" :isLoading="false" :isDisabled="false" />
+            <MainButton data-bs-dismiss="modal" customClass="fw-medium" text="Salvar" :width="'100px'" :height="'40px'"
+                :onClick="() => funcEditUser(user.id, nomeEdit, emailEdit)" :isLoading="isLoadingEdit"
+                :isDisabled="isLoadingEdit" />
         </template>
     </EditProfileModal>
 
@@ -88,8 +89,9 @@
 
         <template #footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <MainButton customClass="fw-medium bg-danger border border-danger" text="Deletar" :width="'100px'"
-                :height="'40px'" :onClick="() => funcDeleteUser(user)" :isLoading="false" :isDisabled="false" />
+            <MainButton data-bs-dismiss="modal" customClass="fw-medium bg-danger border border-danger" text="Deletar"
+                :width="'100px'" :height="'40px'" :onClick="() => funcDeleteUser(user)" :isLoading="isLoadingDelete"
+                :isDisabled="isLoadingDelete" />
         </template>
     </DeleteModal>
 
@@ -125,7 +127,18 @@ export default {
             type: Function,
             required: true
         },
-
+        isLoadingActive: {
+            type: Boolean,
+            default: false
+        },
+        isLoadingEdit: {
+            type: Boolean,
+            default: false
+        },
+        isLoadingDelete: {
+            type: Boolean,
+            default: false
+        },
     },
     components: { EditProfileModal, MainButton, MainInput, DeleteModal },
     data() {
