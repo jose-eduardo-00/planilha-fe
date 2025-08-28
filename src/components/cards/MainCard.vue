@@ -4,10 +4,10 @@
         <div class="overlay position-absolute top-0 start-0 w-100 h-100"></div>
 
         <div class="card-header px-4 pt-3 text-white text-center" style="background-color: #212121 !important;">
-            <h2 class="fw-medium fs-5">Titulo da planilha</h2>
+            <h2 class="fw-medium fs-5">{{ title }}</h2>
         </div>
         <div class="card-body d-flex justify-content-center">
-            <span class="py-1 fw-semibold fs-6">24/05/2010</span>
+            <span class="py-1 fw-semibold fs-6">{{ formatDate(date) }}</span>
         </div>
     </div>
 </template>
@@ -31,6 +31,19 @@ export default {
         redirect: {
             type: Function,
             required: true,
+        },
+        title: {
+            type: String,
+            default: "Titulo da Planilha"
+        },
+        date: {
+            type: String,
+            default: "Data da Planilha"
+        },
+    },
+    methods: {
+        formatDate(date) {
+            return new Date(date).toLocaleDateString('pt-BR');
         },
     }
 }
