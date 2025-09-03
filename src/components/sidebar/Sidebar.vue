@@ -20,11 +20,11 @@
         <h2 class="title text-white text-center mt-4 mb-2 fs-3" :class="{ 'hide-list': !isOpen }">Planilhas</h2>
         <hr class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
         <ul class="nav flex-column mt-4" :class="{ 'hide-list': !isOpen }">
-            <li class="ms-4  d-flex align-items-center">
+            <!-- <li class="ms-4  d-flex align-items-center">
                 <i class="fa-solid fa-house fa-lg text-white"></i>
                 <router-link class="text-white text-decoration-none fs-5 ms-2" to="/home">Home</router-link>
-            </li>
-            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff" />
+            </li> 
+             <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff" /> -->
 
             <li class="ms-4 d-flex align-items-center">
                 <i class="fa-solid fa-table-list fa-lg text-white"></i>
