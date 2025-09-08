@@ -28,8 +28,12 @@
 
         <template #footer>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Criar"
-                :onClick="handleEditWorksheet" :isLoading="false" :isDisabled="false" />
+            <MainButton customClass="fw-medium bg-danger border border-danger" :width="'100px'" :height="'40px'"
+                text="Deletar" :onClick="() => deleteFunction(id)" :isLoading="false" :isDisabled="false"
+                data-bs-dismiss="modal" />
+            <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Editar"
+                :onClick="() => editFunction(id, inputName, inputType, inputDate, inputValue)" :isLoading="false"
+                :isDisabled="false" data-bs-dismiss="modal" />
         </template>
     </CreateWorksheetModal>
 </template>
@@ -67,27 +71,28 @@ export default {
             type: String,
             default: '25%',
         },
+        editFunction: Function,
+        deleteFunction: Function,
     },
     data() {
         return {
-            inputName: this.name,
-            inputType: this.type,
-            inputDate: this.date,
-            inputValue: this.value,
+            inputName: "",
+            inputType: "",
+            inputDate: "",
+            inputValue: "",
         };
     },
+    mounted() {
+        this.inputName = this.name;
+        this.inputType = this.type;
+        this.formatDateForInput()
+        this.inputValue = this.value;
+    },
     methods: {
-        handleEditWorksheet() {
-            const dados = {
-                id: this.id,
-                name: this.inputName,
-                type: this.inputType,
-                date: this.inputDate,
-                value: this.inputValue,
-            };
-
-            console.log("Dados Editados:", dados);
-        }
+        formatDateForInput() {
+            const parts = this.date.split('/');
+            this.inputDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+        },
     },
 }
 </script>

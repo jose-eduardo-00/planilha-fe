@@ -81,4 +81,61 @@ export default {
       return error.response || error.message || error;
     }
   },
+  updateLine: async (id, nome, tipo, data, valor) => {
+    try {
+      const response = await http.put(
+        `/planilha/edit-linha/${id}`,
+        {
+          nome,
+          tipo,
+          data,
+          valor,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,PUT",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+  deleteWorksheet: async (id) => {
+    try {
+      const response = await http.delete(`/planilha/delete/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,DELETE",
+        },
+      });
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
+  deleteLine: async (id) => {
+    try {
+      const response = await http.delete(`/planilha/delete-linha/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "OPTIONS,DELETE",
+        },
+      });
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };

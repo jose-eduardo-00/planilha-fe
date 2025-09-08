@@ -38,7 +38,8 @@
                     </div>
                     <div class="card-body p-0">
                         <CardWorksheet v-for="line in lines" :key="line.id" :id="line.id" :name="line.nome"
-                            :type="line.tipo" :date="formatDate(line.data)" :value="formatarDinheiro(line.valor)" />
+                            :type="line.tipo" :date="formatDate(line.data)" :value="formatarDinheiro(line.valor)"
+                            :editFunction="handleEditLine" :deleteFunction="handleDeleteLine" />
                     </div>
                 </div>
             </div>
@@ -74,7 +75,8 @@
             <template #footer>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <MainButton customClass="fw-medium bg-danger border border-danger" text="Deletar" :width="'100px'"
-                    :height="'40px'" :onClick="deletePlanilha" :isLoading="false" :isDisabled="false" />
+                    :height="'40px'" :onClick="handleDeleteWorksheet" data-bs-dismiss="modal" :isLoading="false"
+                    :isDisabled="false" />
             </template>
         </DeleteModal>
     </div>
@@ -251,8 +253,147 @@ export default {
             })
 
         },
-        openDeleteModal() { },
-        deletePlanilha() { },
+        handleEditLine(id, name, type, date, value) {
+            const dados = {
+                id: id,
+                name: name,
+                type: type,
+                date: date,
+                value: value,
+            };
+
+            console.log("Dados Editados:", dados);
+
+            if (name === "" || type === "" || date === "" || value === "R$ 0,00" || value === "") {
+                this.alertVisible = true
+                this.alertMessage = "Por favor, preencha todos os campos."
+                this.alertTitle = "Aviso"
+                this.alertType = "warning"
+
+                setTimeout(() => {
+                    this.alertVisible = false
+                    this.alertMessage = ""
+                    this.alertTitle = ""
+                    this.alertType = ""
+                }, 3000);
+                return
+            }
+
+            let newValue = this.formatValueForBackend(value)
+
+            api.updateLine(id, name, type, date, newValue).then(res => {
+                console.log(res.status, res.data)
+                if (res.status === 200) {
+                    this.alertVisible = true
+                    this.alertMessage = "Linha editada com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+
+                    this.getWorksheet(this.id)
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                } else {
+                    this.alertVisible = true
+                    this.alertMessage = "Erro ao editar linha. Tente novamente mais tarde."
+                    this.alertTitle = "Erro"
+                    this.alertType = "danger"
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                }
+            }).catch(err => {
+                console.log(err)
+                this.alertVisible = true
+                this.alertMessage = "Erro de conexão. Tente novamente mais tarde."
+                this.alertTitle = "Erro"
+                this.alertType = "danger"
+            })
+
+
+        },
+        handleDeleteLine(id) {
+            api.deleteLine(id).then(res => {
+                if (res.status === 200) {
+                    this.alertVisible = true
+                    this.alertMessage = "Linha deletada com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+
+                    this.getWorksheet(this.id)
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                } else {
+                    this.alertVisible = true
+                    this.alertMessage = "Erro ao deletar linha. Tente novamente mais tarde."
+                    this.alertTitle = "Erro"
+                    this.alertType = "danger"
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                }
+            }).catch(err => {
+                console.log(err)
+                this.alertVisible = true
+                this.alertMessage = "Erro de conexão. Tente novamente mais tarde."
+                this.alertTitle = "Erro"
+                this.alertType = "danger"
+            })
+        },
+        handleDeleteWorksheet() {
+            let id = this.id
+            api.deleteWorksheet(id).then(res => {
+                if (res.status === 200) {
+                    this.alertVisible = true
+                    this.alertMessage = "Planilha deletada com sucesso! Você será redirecionado."
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                        this.$router.push('/my-worksheets')
+                    }, 2000);
+                } else {
+                    this.alertVisible = true
+                    this.alertMessage = "Erro ao deletar planilha. Tente novamente mais tarde."
+                    this.alertTitle = "Erro"
+                    this.alertType = "danger"
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                }
+            }).catch(err => {
+                console.log(err)
+                this.alertVisible = true
+                this.alertMessage = "Erro de conexão. Tente novamente mais tarde."
+                this.alertTitle = "Erro"
+                this.alertType = "danger"
+            })
+        },
     }
 }
 </script>
