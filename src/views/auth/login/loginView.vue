@@ -98,7 +98,7 @@ export default {
                 this.token = auth.token;
                 const decoded = jwtDecode(auth.token);
                 auth.setUser(decoded.user);
-                this.$router.push('/Home');
+                this.$router.push('/my-worksheets');
             }
         },
         handleLogin() {
@@ -209,7 +209,7 @@ export default {
                             this.alertTitle = '';
                             this.alertType = '';
 
-                            this.$router.push('/Home');
+                            this.$router.push('/my-worksheets');
                         }, 2000);
                     }
                 })

@@ -1,17 +1,18 @@
 <template>
     <div class="sidebar" :class="{ collapsed: !isOpen }">
-        <h2 class="title text-white text-center mt-4 mb-2 fs-3" :class="{ 'hide-list': !isOpen }">Admin</h2>
-        <hr class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
+        <h2 v-if="admin" class="title text-white text-center mt-4 mb-2 fs-3" :class="{ 'hide-list': !isOpen }">Admin
+        </h2>
+        <hr v-if="admin" class="mb-2" style="width: 90%; height: 2px; margin: 0 auto; background-color: #fff;" />
         <ul v-if="admin" class="nav flex-column mt-4" :class="{ 'hide-list': !isOpen }">
             <li class="ms-4  d-flex align-items-center">
                 <i class="fa-solid fa-users fa-lg text-white"></i>
-                <router-link class="text-white text-decoration-none fs-5 ms-2" to="/users-list">Usuários</router-link>
+                <router-link class="text-white text-decoration-none fs-6 ms-2" to="/users-list">Usuários</router-link>
             </li>
             <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff" />
 
             <li class="ms-4 d-flex align-items-center">
                 <i class="fa-solid fa-bell fa-lg text-white"></i>
-                <router-link class="text-white text-decoration-none fs-5 ms-2"
+                <router-link class="text-white text-decoration-none fs-6 ms-2"
                     to="/notifications">Notificações</router-link>
             </li>
             <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
@@ -28,7 +29,7 @@
 
             <li class="ms-4 d-flex align-items-center">
                 <i class="fa-solid fa-table-list fa-lg text-white"></i>
-                <router-link class="text-white text-decoration-none fs-5 ms-2" to="/my-worksheets">Minhas
+                <router-link class="text-white text-decoration-none fs-6 ms-2" to="/my-worksheets">Minhas
                     Planilhas</router-link>
             </li>
             <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
@@ -48,7 +49,7 @@ export default {
     },
     data() {
         return {
-            admin: true,
+            admin: false,
             token: null
         }
     },
@@ -67,6 +68,10 @@ export default {
                 this.token = auth.token;
                 const decoded = jwtDecode(auth.token);
                 auth.setUser(decoded.user);
+
+                if (decoded.user.nivel === 1) {
+                    this.admin = true;
+                }
             }
         },
     },
