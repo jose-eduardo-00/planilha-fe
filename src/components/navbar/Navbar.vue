@@ -21,13 +21,13 @@
                         Perfil
                     </router-link>
                 </li>
-                <li class="text-center w-100" style="display: flex; align-items: center; justify-content: center;">
+                <!-- <li class="text-center w-100" style="display: flex; align-items: center; justify-content: center;">
                     <router-link to="/configuracoes"
                         class="dropdown-item border-bottom border-dark py-2 mb-1 w-100 px-2"
                         style="width: 90% !important;">
                         Configurações
                     </router-link>
-                </li>
+                </li> -->
                 <li class="mt-4 d-flex justify-content-center">
                     <MainButton customClass="fw-medium" :width="'90%'" :height="'40px'" text="Sair"
                         :onClick="handleLogout" :isLoading="isLoadingLogout" :isDisabled="isLoadingLogout" />
