@@ -1,9 +1,10 @@
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+// const apiurl = "http://localhost:3000"
+
 export const http = axios.create({
-  baseURL: "http://localhost:3000",
-  // baseURL: "",
+  baseURL: apiUrl,
 });
 
-export const baseUrl = "http://localhost:3000";
-// export const baseUrl = "";
+export const baseUrl = apiUrl;
