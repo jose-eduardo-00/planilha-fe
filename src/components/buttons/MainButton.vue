@@ -1,6 +1,7 @@
 <template>
     <div :style="{ width, height }">
-        <button class="btn btn-dark w-100 h-100" :class="customClass" @click="onClick" :disabled="isDisabled">
+        <button class="btn btn-dark w-100 h-100" :class="[customClass, animationClass]" @click="onClick"
+            :disabled="isDisabled">
             <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span v-else>{{ text }}</span>
         </button>
@@ -16,6 +17,10 @@ export default {
             required: true,
         },
         customClass: {
+            type: String,
+            default: '',
+        },
+        animationName: {
             type: String,
             default: '',
         },
@@ -40,9 +45,22 @@ export default {
             default: '0px',
         },
     },
-    data() {
-        return {
-
+    computed: {
+        // Usamos uma propriedade computada para gerar a classe CSS correta
+        animationClass() {
+            if (this.animationName === 'bounce') {
+                return 'can-bounce';
+            }
+            if (this.animationName === 'pulse') {
+                return 'can-pulse';
+            }
+            if (this.animationName === 'shakeX') {
+                return 'can-shake';
+            }
+            if (this.animationName === 'zoomIn') {
+                return 'can-zoom';
+            }
+            return '';
         }
     },
 }

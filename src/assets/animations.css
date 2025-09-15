@@ -1,0 +1,88 @@
+/* src/assets/animations.css */
+
+/* --- Animações --- */
+/* As definições de @keyframes (bounce, pulse, shakeX) continuam exatamente as mesmas de antes */
+
+@keyframes bounce {
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+  40%,
+  43% {
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+@keyframes shakeX {
+  from,
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+/* --- Classes que ATIVAM a animação no HOVER --- */
+/* Esta é a grande mudança. A animação só é aplicada quando o mouse está em cima. */
+
+.can-bounce:hover {
+  animation-name: bounce;
+  animation-duration: 1s;
+  transform-origin: center bottom;
+}
+
+.can-pulse:hover {
+  animation-name: pulse;
+  animation-duration: 1s;
+  /* 'infinite' faz a animação repetir enquanto o mouse estiver em cima */
+  animation-iteration-count: infinite;
+}
+
+.can-shake:hover {
+  animation-name: shakeX;
+  animation-duration: 1s;
+}
+
+.can-zoom {
+  /* A mágica da suavidade acontece aqui! 
+     Dizemos ao CSS para fazer uma transição suave na propriedade 'transform' 
+     que dura 0.2 segundos. */
+  transition: transform 0.2s ease-in-out;
+}
+
+.can-zoom:hover {
+  /* Quando o mouse está em cima, aumentamos o tamanho do elemento em 5% */
+  transform: scale(1.05);
+  /* Você pode aumentar o valor (ex: 1.1 para 10%) para um efeito mais forte */
+}
