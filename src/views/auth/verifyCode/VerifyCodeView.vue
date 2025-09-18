@@ -77,8 +77,8 @@ export default {
             errorEmail: false,
             successPassword: false,
             errorPassword: false,
-            step1: false,
-            step2: true,
+            step1: true,
+            step2: false,
             isLoadingCode: false,
             code: '',
             successCode: false,
@@ -92,6 +92,8 @@ export default {
     mounted() {
         const token = localStorage.getItem('v');
         if (token) {
+            this.step1 = false;
+            this.step2 = true;
             const decoded = jwtDecode(token);
             this.user = decoded.user;
             this.email = decoded.user.email;
