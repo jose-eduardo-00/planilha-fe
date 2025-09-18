@@ -1,27 +1,11 @@
 <template>
-    <main class="d-flex flex-column align-items-center justify-content-center vh-100 bg-light">
+    <main class="d-flex flex-column align-items-center justify-content-center vh-100 bg-light bg-imagem-cover">
         <MainAlertView v-if="alertVisible" :message="alertMessage" :title="alertTitle" :type="alertType" class="mb-3" />
-        <div class="card shadow-sm p-0 d-flex flex-row" style="width: 60%;">
-            <div class="text-white d-flex flex-column align-items-center justify-content-between px-4"
-                style="width: 50%; background: linear-gradient(180deg, #0d6efd, #66b2ff); height: 60vh;">
-                <h4 class="text-center fs-2 fw-semibold mt-5">Esqueceu sua senha?</h4>
+        <div class="card px-5 bg-white bg-opacity-25 border border-light border-opacity-25
+            shadow-lg backdrop-blur" style="width: 50%;">
+            <h4 class="text-center fs-1 fw-semibold mt-5">Esqueceu sua senha?</h4>
 
-                <div class="" style="margin-top: -5rem;">
-                    <h3 class="text-center fs-4" v-if="step1">Sem Problemas, informe seu email</h3>
-                    <h3 class="text-center fs-4" v-if="step2">Sem Problemas, informe o código de verificação</h3>
-                    <h3 class="text-center fs-4" v-if="step3">Sem Problemas, informe sua nova senha</h3>
-
-                    <p class="text-center" style="font-size: 12px;">Aqui você pode recuperar sua senha.</p>
-                </div>
-
-                <!-- <div class="d-flex align-items-center justify-content-center mb-4" style="margin-top: -4rem;">
-                    <router-link to="/" class="fs-6 fw-normal text-white text-decoration-none" style="cursor: pointer;">
-                        Voltar
-                    </router-link>
-                </div> -->
-                <div class="mb-4" style="margin-top: -4rem;"></div>
-            </div>
-            <div class="d-flex flex-column justify-content-center px-4 py-5" style="width: 50%;">
+            <div class="d-flex flex-column justify-content-center px-4 mb-4 mt-3">
 
                 <div class="" v-if="step1">
                     <MainInput v-model="email" label="Email" placeholder="seu@email.com" :success="successEmail"
@@ -29,8 +13,8 @@
                 </div>
 
                 <div class="d-flex flex-column align-items-center justify-content-center mb-4 mt-4" v-if="step1">
-                    <MainButton customClass="fw-medium bg-dark border border-dark" text="Enviar" :width="'80%'"
-                        :height="'40px'" :onClick="handleEmail" :isLoading="isLoadingEmail"
+                    <MainButton animationName="zoomIn" customClass="fw-medium bg-dark border border-dark" text="Enviar"
+                        :width="'80%'" :height="'40px'" :onClick="handleEmail" :isLoading="isLoadingEmail"
                         :isDisabled="isLoadingEmail" />
                 </div>
 
@@ -46,8 +30,9 @@
                     Reenviar {{ timer !== 0 ? timer : '' }}</span>
 
                 <div class="d-flex flex-column align-items-center justify-content-center mb-4 mt-3" v-if="step2">
-                    <MainButton customClass="fw-medium bg-dark border border-dark" text="Verificar" :width="'80%'"
-                        :height="'40px'" :onClick="handleCode" :isLoading="isLoadingCode" :isDisabled="isLoadingCode" />
+                    <MainButton animationName="zoomIn" customClass="fw-medium bg-dark border border-dark"
+                        text="Verificar" :width="'80%'" :height="'40px'" :onClick="handleCode"
+                        :isLoading="isLoadingCode" :isDisabled="isLoadingCode" />
                 </div>
 
                 <div class="" v-if="step3">
@@ -68,14 +53,29 @@
                 </div>
 
                 <div class="d-flex align-items-center justify-content-center mt-4" v-if="step3">
-                    <MainButton customClass="fw-medium bg-dark border border-dark" :text="'Redefinir Senha'"
-                        :width="'80%'" :height="'40px'" :onClick="handleChangePass" :isLoading="isLoading"
-                        :isDisabled="false" />
+                    <MainButton animationName="zoomIn" customClass="fw-medium bg-dark border border-dark"
+                        :text="'Redefinir Senha'" :width="'80%'" :height="'40px'" :onClick="handleChangePass"
+                        :isLoading="isLoading" :isDisabled="false" />
                 </div>
             </div>
         </div>
     </main>
 </template>
+
+<style scoped>
+.bg-imagem-cover {
+    background-image: url('../../../../assets/fundo2_planilhas_login.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.backdrop-blur {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+</style>
 
 <script>
 import MainAlertView from '../../../components/alerts/MainAlertView.vue';
