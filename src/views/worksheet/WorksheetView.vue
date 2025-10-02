@@ -10,13 +10,16 @@
                     class="mb-3" style="display: flex; justify-content: start !important;" />
 
                 <div class="d-flex align-items-center justify-content-center">
-                    <i class="fa-solid fa-plus fa-lg me-4 text-dark" style="cursor: pointer;" data-bs-toggle="modal"
-                        data-bs-target="#createModal"></i>
-                    <h4 class="text-center mt-2 fw-semibold">
-                        {{ title }}
-                    </h4>
-                    <i class="fa-solid fa-trash fa-lg ms-4 text-danger" style="cursor: pointer;" data-bs-toggle="modal"
-                        :data-bs-target="`#deleteModal${id}`"></i>
+                    <div class="d-flex align-items-center justify-content-center text-dark px-4 py-1 rounded shadow">
+                        <i class="fa-solid fa-plus fa-lg me-5 text-dark" style="cursor: pointer;" data-bs-toggle="modal"
+                            data-bs-target="#createModal"></i>
+                        <h4 class="text-center mt-2 fw-semibold" style="cursor: pointer;" data-bs-toggle="modal"
+                            data-bs-target="#editTitleModal">
+                            {{ title }}
+                        </h4>
+                        <i class="fa-solid fa-trash fa-lg ms-5 text-dark" style="cursor: pointer;"
+                            data-bs-toggle="modal" :data-bs-target="`#deleteModal${id}`"></i>
+                    </div>
                 </div>
 
                 <div class="card mt-4">
@@ -79,6 +82,19 @@
                     :isDisabled="false" />
             </template>
         </DeleteModal>
+
+        <CreateWorksheetModal id="editTitleModal" title="Editar Título" customClass="">
+            <template #default>
+                <MainInput v-model="editTitle" label="Nome da planilha" placeholder="nome" />
+            </template>
+
+            <template #footer>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Salvar"
+                    :onClick="handleEditTitle" :isLoading="isLoadingTitle" :isDisabled="isLoadingTitle"
+                    data-bs-dismiss="modal" />
+            </template>
+        </CreateWorksheetModal>
     </div>
 </template>
 
@@ -108,6 +124,7 @@ export default {
             worksheet: null,
             lines: [],
             isLoading: false,
+            editTitle: 'Nome da Planilha',
 
             name: "",
             type: "",
@@ -141,6 +158,7 @@ export default {
                     this.worksheet = res.data.planilha;
                     this.lines = res.data.planilha.linhas
                     this.title = res.data.planilha.nome
+                    this.editTitle = res.data.planilha.nome
                 }
             })
         },
@@ -393,6 +411,73 @@ export default {
                 this.alertTitle = "Erro"
                 this.alertType = "danger"
             })
+        },
+        handleEditTitle() {
+            this.isLoadingTitle = true
+            let id = this.id
+            let nome = this.editTitle
+
+            if (nome === "") {
+                this.alertVisible = true
+                this.alertMessage = "Por favor, preencha o campo de nome."
+                this.alertTitle = "Aviso"
+                this.alertType = "warning"
+                this.isLoadingTitle = false
+
+                setTimeout(() => {
+                    this.alertVisible = false
+                    this.alertMessage = ""
+                    this.alertTitle = ""
+                    this.alertType = ""
+                }, 3000);
+                return
+            }
+
+            api.updateWorksheet(id, nome).then(res => {
+                console.log(res.status, res.data)
+                if (res.status === 200) {
+                    this.alertVisible = true
+                    this.alertMessage = "Nome da planilha editado com sucesso!"
+                    this.alertTitle = "Sucesso"
+                    this.alertType = "success"
+                    this.title = nome
+                    this.isLoadingTitle = false
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                } else {
+                    this.alertVisible = true
+                    this.alertMessage = "Erro ao editar nome da planilha. Tente novamente mais tarde."
+                    this.alertTitle = "Erro"
+                    this.alertType = "danger"
+                    this.isLoadingTitle = false
+
+                    setTimeout(() => {
+                        this.alertVisible = false
+                        this.alertMessage = ""
+                        this.alertTitle = ""
+                        this.alertType = ""
+                    }, 3000);
+                }
+            }).catch(err => {
+                this.alertVisible = true
+                this.alertMessage = "Erro de conexão. Tente novamente mais tarde."
+                this.alertTitle = "Erro"
+                this.alertType = "danger"
+                this.isLoadingTitle = false
+
+                setTimeout(() => {
+                    this.alertVisible = false
+                    this.alertMessage = ""
+                    this.alertTitle = ""
+                    this.alertType = ""
+                }, 3000);
+            })
+
         },
     }
 }

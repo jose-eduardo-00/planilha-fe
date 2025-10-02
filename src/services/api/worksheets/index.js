@@ -138,4 +138,27 @@ export default {
       return error.response || error.message || error;
     }
   },
+  updateWorksheet: async (id, nome, descricao) => {
+    try {
+      const response = await http.put(
+        `/planilha/edit/${id}`,
+        {
+          nome,
+          descricao,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,PUT",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      return error.response || error.message || error;
+    }
+  },
 };
