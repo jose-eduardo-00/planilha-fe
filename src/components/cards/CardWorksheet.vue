@@ -1,5 +1,6 @@
 <template>
-    <div class="d-flex card-hover" data-bs-toggle="modal" :data-bs-target="`#editWorksheetModal${id}`">
+    <div class="d-flex card-hover" data-bs-toggle="modal" :data-bs-target="`#editWorksheetModal${id}`"
+        :style="`background-color: ${color}`">
         <div :style="{ width }" style="cursor: pointer;"
             class="d-flex align-items-center justify-content-center border-bottom border-start border-black py-2">
             {{ name }}</div>
@@ -16,14 +17,19 @@
 
     <CreateWorksheetModal :id="`editWorksheetModal${id}`" title="Editar Linha da Planilha" customClass="">
         <template #default>
-            <div class="d-flex gap-3">
-                <MainInput v-model="inputName" label="Nome" placeholder="Nome" />
-                <MainInput v-model="inputType" label="Tipo" placeholder="Fixa" />
+            <MainInput v-model="inputName" label="Nome da linha" placeholder="nome" />
+            <div class="d-flex flex-row justify-content-between">
+                <SelectInput v-model="inputType" label="Tipo" placeholder="tipo" :options="typeOptions"
+                    customClass="form-control-lg" customDivClass="" style="width: 45% !important;" />
+                <MainInput v-model="inputDate" label="Vencimento" placeholder="vencimento" type="date"
+                    style="width: 45% !important;" />
             </div>
-            <div class="d-flex gap-3 mt-3">
-                <MainInput v-model="inputDate" label="Vencimento" placeholder="22/03/2022" type="date" class="w-50" />
-                <MainInput v-model="inputValue" label="Valor" placeholder="R$ 100,00" />
+            <div class="d-flex flex-row justify-content-between">
+                <MainInput v-model="inputValue" label="Valor" placeholder="valor" :maskFunction="maskValue"
+                    style="width: 85%;" />
+                <ColorInput v-model="colorValue" label="Cor" width="40px" height="40px" />
             </div>
+
         </template>
 
         <template #footer>
@@ -32,20 +38,22 @@
                 text="Deletar" :onClick="() => deleteFunction(id)" :isLoading="false" :isDisabled="false"
                 data-bs-dismiss="modal" />
             <MainButton customClass="fw-medium" :width="'100px'" :height="'40px'" text="Editar"
-                :onClick="() => editFunction(id, inputName, inputType, inputDate, inputValue)" :isLoading="false"
-                :isDisabled="false" data-bs-dismiss="modal" />
+                :onClick="() => editFunction(id, inputName, inputType, inputDate, inputValue, colorValue)"
+                :isLoading="false" :isDisabled="false" data-bs-dismiss="modal" />
         </template>
     </CreateWorksheetModal>
 </template>
 
 <script>
 import MainButton from '../buttons/MainButton.vue';
+import ColorInput from '../inputs/ColorInput.vue';
 import MainInput from '../inputs/MainInput.vue';
+import SelectInput from '../inputs/SelectInput.vue';
 import CreateWorksheetModal from '../modals/CreateWorksheetModal.vue';
 
 export default {
     name: "CardWorksheet",
-    components: { CreateWorksheetModal, MainButton, MainInput },
+    components: { CreateWorksheetModal, MainButton, MainInput, SelectInput, ColorInput },
     props: {
         id: {
             type: String,
@@ -67,6 +75,10 @@ export default {
             type: String,
             default: "R$ 0,00"
         },
+        color: {
+            type: String,
+            default: "#ffffff"
+        },
         width: {
             type: String,
             default: '25%',
@@ -80,13 +92,20 @@ export default {
             inputType: "",
             inputDate: "",
             inputValue: "",
+            colorValue: "",
+            typeOptions: [
+                { value: 'Fixa', label: 'Fixa' },
+                { value: 'Variavel', label: 'Variável' },
+            ],
         };
     },
     mounted() {
+        console.log(this.color)
         this.inputName = this.name;
         this.inputType = this.type;
         this.formatDateForInput()
         this.inputValue = this.value;
+        this.colorValue = this.color;
     },
     methods: {
         formatDateForInput() {

@@ -81,7 +81,7 @@ export default {
       return error.response || error.message || error;
     }
   },
-  updateLine: async (id, nome, tipo, data, valor) => {
+  updateLine: async (id, nome, tipo, data, valor, color) => {
     try {
       const response = await http.put(
         `/planilha/edit-linha/${id}`,
@@ -90,6 +90,7 @@ export default {
           tipo,
           data,
           valor,
+          color,
         },
         {
           headers: {

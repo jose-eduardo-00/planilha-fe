@@ -42,7 +42,7 @@
                     <div class="card-body p-0">
                         <CardWorksheet v-for="line in lines" :key="line.id" :id="line.id" :name="line.nome"
                             :type="line.tipo" :date="formatDate(line.data)" :value="formatarDinheiro(line.valor)"
-                            :editFunction="handleEditLine" :deleteFunction="handleDeleteLine" />
+                            :color="line.color" :editFunction="handleEditLine" :deleteFunction="handleDeleteLine" />
                     </div>
                 </div>
             </div>
@@ -124,12 +124,14 @@ export default {
             worksheet: null,
             lines: [],
             isLoading: false,
+            isLoadingTitle: false,
             editTitle: 'Nome da Planilha',
 
             name: "",
             type: "",
             date: "",
             value: "R$ 0,00",
+            color: "",
             typeOptions: [
                 { value: 'Fixa', label: 'Fixa' },
                 { value: 'Variavel', label: 'Variável' },
@@ -271,18 +273,8 @@ export default {
             })
 
         },
-        handleEditLine(id, name, type, date, value) {
-            const dados = {
-                id: id,
-                name: name,
-                type: type,
-                date: date,
-                value: value,
-            };
-
-            console.log("Dados Editados:", dados);
-
-            if (name === "" || type === "" || date === "" || value === "R$ 0,00" || value === "") {
+        handleEditLine(id, name, type, date, value, color) {
+            if (name === "" || type === "" || date === "" || value === "R$ 0,00" || value === "" || color === "") {
                 this.alertVisible = true
                 this.alertMessage = "Por favor, preencha todos os campos."
                 this.alertTitle = "Aviso"
@@ -299,7 +291,7 @@ export default {
 
             let newValue = this.formatValueForBackend(value)
 
-            api.updateLine(id, name, type, date, newValue).then(res => {
+            api.updateLine(id, name, type, date, newValue, color).then(res => {
                 console.log(res.status, res.data)
                 if (res.status === 200) {
                     this.alertVisible = true
