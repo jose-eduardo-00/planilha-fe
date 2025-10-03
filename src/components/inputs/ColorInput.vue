@@ -31,6 +31,8 @@ export default {
         palette: {
             type: Array,
             default: () => [
+                // Brancos
+                '#ffffff', '#f8f9fa', '#e9ecef', '#dee2e6',
                 // Vermelhos
                 '#f8d7da', '#dc3545', '#842029', '#ff2c2c',
                 // Verdes
