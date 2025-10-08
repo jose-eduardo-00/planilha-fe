@@ -10,12 +10,12 @@
             </li>
             <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff" />
 
-            <li class="ms-4 d-flex align-items-center">
+            <!-- <li class="ms-4 d-flex align-items-center">
                 <i class="fa-solid fa-bell fa-lg text-white"></i>
                 <router-link class="text-white text-decoration-none fs-6 ms-2"
                     to="/notifications">Notificações</router-link>
             </li>
-            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" />
+            <hr class="mt-2 mb-4 ms-4" style="width: 70%; height: 2px; background-color: #fff;" /> -->
         </ul>
 
         <h2 class="title text-white text-center mt-4 mb-2 fs-3" :class="{ 'hide-list': !isOpen }">Planilhas</h2>
