@@ -19,11 +19,23 @@
                         <div class="d-flex gap-2 flex-wrap justify-content-center">
                             <MainCard v-for="worksheet in visibleWorksheets" :key="worksheet.id" :width="'20%'"
                                 :redirect="() => handleWorksheet(worksheet.id)" :title="worksheet.nome"
-                                :date="worksheet.createdAt" />
+                                :date="worksheet.createdAt" v-if="!isSkeleton" />
+
+                            <template v-if="isSkeleton">
+                                <div class="placeholder-glow d-flex gap-2 flex-wrap justify-content-center"
+                                    style="width: 100%;">
+
+                                    <div class="placeholder rounded" style="width: 20%; height: 120px;"></div>
+                                    <div class="placeholder rounded" style="width: 20%; height: 120px;"></div>
+                                    <div class="placeholder rounded" style="width: 20%; height: 120px;"></div>
+                                    <div class="placeholder rounded" style="width: 20%; height: 120px;"></div>
+
+                                </div>
+                            </template>
                         </div>
                         <div class="d-flex justify-content-center mt-4" v-if="currentLimit < myWorksheets.length">
                             <MainButton customClass="fw-medium " :width="'160px'" :height="'40px'" text="Ver Mais"
-                                :onClick="handleMore" :isLoading="false" :isDisabled="false" />
+                                :onClick="handleMore" :isLoading="isLoadingMore" :isDisabled="isLoadingMore" />
                         </div>
                     </div>
                 </div>
@@ -78,9 +90,11 @@ export default {
             alertTitle: "",
             alertType: "",
             isLoading: false,
-
+            isLoadingMore: false,
             itemsPerPage: 10,
             currentLimit: 10,
+
+            isSkeleton: true,
         }
     },
     mounted() {
@@ -110,6 +124,7 @@ export default {
                 if (res.status === 200) {
                     this.myWorksheets = res.data;
                 }
+                this.isSkeleton = false;
             })
         },
         handleModalCreateWorksheet() { },
@@ -179,7 +194,11 @@ export default {
             })
         },
         handleMore() {
+            this.isLoadingMore = true;
+
             this.currentLimit += this.itemsPerPage;
+
+            this.isLoadingMore = false
         },
         handleWorksheet(id) {
             this.$router.push({ name: 'Worksheet', params: { id } });

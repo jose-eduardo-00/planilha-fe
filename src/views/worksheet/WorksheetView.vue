@@ -13,9 +13,14 @@
                     <div class="d-flex align-items-center justify-content-center text-dark px-4 py-1 rounded shadow">
                         <i class="fa-solid fa-plus fa-lg me-5 text-dark" style="cursor: pointer;" data-bs-toggle="modal"
                             data-bs-target="#createModal"></i>
-                        <h4 class="text-center mt-2 fw-semibold" style="cursor: pointer;" data-bs-toggle="modal"
+                        <h4 class="text-center mt-2 fw-semibold placeholder-glow"
+                            :style="{ cursor: isSkeleton ? 'default' : 'pointer' }" data-bs-toggle="modal"
                             data-bs-target="#editTitleModal">
-                            {{ title }}
+
+                            <span v-if="!isSkeleton">{{ title }}</span>
+
+                            <span v-else class="placeholder rounded">Nome da planilha</span>
+
                         </h4>
                         <i class="fa-solid fa-trash fa-lg ms-5 text-dark" style="cursor: pointer;"
                             data-bs-toggle="modal" :data-bs-target="`#deleteModal${id}`"></i>
@@ -40,9 +45,23 @@
                         </div>
                     </div>
                     <div class="card-body p-0">
-                        <CardWorksheet v-for="line in lines" :key="line.id" :id="line.id" :name="line.nome"
-                            :type="line.tipo" :date="formatDate(line.data)" :value="formatarDinheiro(line.valor)"
-                            :color="line.color" :editFunction="handleEditLine" :deleteFunction="handleDeleteLine" />
+                        <CardWorksheet v-if="!isSkeleton" v-for="line in lines" :key="line.id" :id="line.id"
+                            :name="line.nome" :type="line.tipo" :date="formatDate(line.data)"
+                            :value="formatarDinheiro(line.valor)" :color="line.color" :editFunction="handleEditLine"
+                            :deleteFunction="handleDeleteLine" />
+
+                        <template v-if="isSkeleton">
+                            <div class="placeholder-glow d-flex flex-wrap justify-content-center" style="width: 100%;">
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                                <div class="placeholder" style="width: 100%; height: 40px;"></div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -125,6 +144,7 @@ export default {
             lines: [],
             isLoading: false,
             isLoadingTitle: false,
+            isSkeleton: true,
             editTitle: 'Nome da Planilha',
 
             name: "",
@@ -154,6 +174,8 @@ export default {
             this.isSidebarOpen = !this.isSidebarOpen
         },
         getWorksheet(id) {
+            this.isSkeleton = true
+
             api.getMyWorkSheet(id).then(res => {
                 console.log(res.status, res.data)
                 if (res.status === 200) {
@@ -162,6 +184,8 @@ export default {
                     this.title = res.data.planilha.nome
                     this.editTitle = res.data.planilha.nome
                 }
+
+                this.isSkeleton = false
             })
         },
         maskValue(val) {
